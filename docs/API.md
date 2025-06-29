@@ -3,27 +3,27 @@
 Cette API permet de créer, consulter et mettre à jour les actions et leurs occurrences.
 
 ## 🛠️ Base URL
-
-- Pour le développement : `http://localhost:8080`
+Pour le développement : `http://localhost:8080`
 
 ---
 
 ## 🔗 Endpoints
 
----
+### Actions
 
-### 📌 Actions
-
-#### `POST /actions`
+#### POST /actions
 Créer une nouvelle action.
 
-- **Body JSON :**
+Body JSON :
+
 ```json
 {
   "name": "Prendre le tram"
 }
 ```
-- **Réponse 201 :**
+
+Réponse 201 :
+
 ```json
 {
   "id": 1,
@@ -32,10 +32,13 @@ Créer une nouvelle action.
 }
 ```
 
-#### `GET /actions`
+---
+
+#### GET /actions
 Lister toutes les actions existantes.
 
-- **Réponse 200 :**
+Réponse 200 :
+
 ```json
 [
   {
@@ -46,25 +49,25 @@ Lister toutes les actions existantes.
 ]
 ```
 
+---
 
-### 📌 Occurrences
+### Occurrences
 
-#### `POST /actions/{id}/events`
-Ajouter une occurrence pour une action donnée.
-
-URL params :
-
-- `id`: ID de l’action.
+#### POST /actions/{id}/events
+Ajouter une occurrence pour l’action dont l’ID est `{id}`.
 
 Body JSON :
+
 ```json
 {
   "timestamp": "2025-06-29T17:15:00Z"
 }
 ```
-(ou timestamp laissé vide pour enregistrer « maintenant » côté serveur)
+
+*(ou laisse vide pour enregistrer “maintenant” côté serveur)*
 
 Réponse 201 :
+
 ```json
 {
   "id": 1,
@@ -73,10 +76,13 @@ Réponse 201 :
 }
 ```
 
-#### `GET /actions/{id}/events`
+---
+
+#### GET /actions/{id}/events
 Lister toutes les occurrences d’une action.
 
 Réponse 200 :
+
 ```json
 [
   {
@@ -86,3 +92,23 @@ Réponse 200 :
   }
 ]
 ```
+
+---
+
+## 🔐 Authentification
+*Non prévue dans le MVP, mais des JWT pourront être ajoutés plus tard.*
+
+---
+
+## ⚠️ Codes d’erreur
+
+- 400 Bad Request — JSON invalide ou données manquantes  
+- 404 Not Found — action inexistante  
+- 500 Internal Server Error — erreur serveur  
+
+---
+
+## ✅ Notes
+
+- Tous les timestamps sont en UTC (ISO 8601).  
+- Les IDs sont des entiers auto-incrémentés.  
