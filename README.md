@@ -12,16 +12,21 @@ Une application pour suivre et visualiser les statistiques de votre vie (ex : no
 
 ### Backend
 cd backend
+
 go run main.go
 
 ### Site Web
 cd web
+
 npm install
+
 npm run dev
 
 ### App Mobile
 cd mobile
+
 npm install
+
 npm start
 
 ## API
