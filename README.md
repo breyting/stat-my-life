@@ -28,4 +28,4 @@ npm start
 Voir [docs/API.md](docs/API.md)
 
 ## Roadmap
-Voir [Trello](https://trello.com/invite/b/686102ca63d10ba48717bc42/ATTI699aa62cb3f41c61b38d446ac164a984259D019D/projet-stat-my-life))
+Voir [Trello](https://trello.com/invite/b/686102ca63d10ba48717bc42/ATTI699aa62cb3f41c61b38d446ac164a984259D019D/projet-stat-my-life)
