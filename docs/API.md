@@ -73,7 +73,7 @@ Réponse 201 :
 }
 ```
 
-### `GET /actions/{id}/events`
+#### `GET /actions/{id}/events`
 Lister toutes les occurrences d’une action.
 
 Réponse 200 :
