@@ -23,11 +23,25 @@ Créer une nouvelle action.
   "name": "Prendre le tram"
 }
 ```
-Réponse 201 :
+- **Réponse 201 :**
 ```json
 {
   "id": 1,
   "name": "Prendre le tram",
   "createdAt": "2025-06-29T15:30:00Z"
 }
+```
+
+#### `GET /actions`
+Lister toutes les actions existantes.
+
+- **Réponse 200 :**
+```json
+[
+  {
+    "id": 1,
+    "name": "Prendre le tram",
+    "createdAt": "2025-06-29T15:30:00Z"
+  }
+]
 ```
