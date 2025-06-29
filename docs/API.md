@@ -45,3 +45,44 @@ Lister toutes les actions existantes.
   }
 ]
 ```
+
+
+### 📌 Occurrences
+
+#### `POST /actions/{id}/events`
+Ajouter une occurrence pour une action donnée.
+
+URL params :
+
+- `id`: ID de l’action.
+
+Body JSON :
+```json
+{
+  "timestamp": "2025-06-29T17:15:00Z"
+}
+```
+(ou timestamp laissé vide pour enregistrer « maintenant » côté serveur)
+
+Réponse 201 :
+```json
+{
+  "id": 1,
+  "actionId": 1,
+  "timestamp": "2025-06-29T17:15:00Z"
+}
+```
+
+### `GET /actions/{id}/events`
+Lister toutes les occurrences d’une action.
+
+Réponse 200 :
+```json
+[
+  {
+    "id": 1,
+    "actionId": 1,
+    "timestamp": "2025-06-29T17:15:00Z"
+  }
+]
+```
