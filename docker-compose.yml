@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: sml
+      POSTGRES_PASSWORD: smlpass
+      POSTGRES_DB: statmylife
+    ports:
+      - "5432:5432"
+  adminer:
+    # GUI web pour voir la BDD
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"
