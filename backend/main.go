@@ -4,6 +4,8 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/breyting/statmylife/internal/actions"
 	"github.com/jackc/pgx/v5"
@@ -32,6 +34,30 @@ func main() {
 		default:
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
+	})
+
+	http.HandleFunc("/actions/", func(w http.ResponseWriter, r *http.Request) {
+		// Pour /actions/{id}/events
+		pathParts := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
+		if len(pathParts) == 3 && pathParts[0] == "actions" && pathParts[2] == "events" {
+			id, err := strconv.Atoi(pathParts[1])
+			if err != nil {
+				http.Error(w, "Invalid action ID", http.StatusBadRequest)
+				return
+			}
+
+			switch r.Method {
+			case http.MethodGet:
+				h.GetOccurrences(w, r, id)
+			case http.MethodPost:
+				h.CreateOccurrence(w, r, id)
+			default:
+				http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			}
+			return
+		}
+
+		http.NotFound(w, r)
 	})
 
 	log.Println("API listening on :8080")
