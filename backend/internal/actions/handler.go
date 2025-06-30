@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/breyting/statmylife/internal/httphelper"
 	"github.com/jackc/pgx/v5"
 )
 
@@ -16,7 +17,7 @@ type Handler struct {
 func (h *Handler) GetActions(w http.ResponseWriter, r *http.Request) {
 	actions, err := GetAll(r.Context(), h.DB)
 	if err != nil {
-		http.Error(w, "Failed to fetch actions", http.StatusInternalServerError)
+		httphelper.WriteJSONError(w, http.StatusInternalServerError, "Failed to fetch actions")
 		return
 	}
 	json.NewEncoder(w).Encode(actions)
@@ -28,12 +29,16 @@ func (h *Handler) CreateAction(w http.ResponseWriter, r *http.Request) {
 		Name string `json:"name"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		httphelper.WriteJSONError(w, http.StatusBadRequest, "Invalid JSON")
+		return
+	}
+	if body.Name == "" {
+		httphelper.WriteJSONError(w, http.StatusBadRequest, "The 'name' field cannot be empty")
 		return
 	}
 	action, err := Insert(r.Context(), h.DB, body.Name)
 	if err != nil {
-		http.Error(w, "Failed to insert action", http.StatusInternalServerError)
+		httphelper.WriteJSONError(w, http.StatusInternalServerError, "Failed to insert action")
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
@@ -44,7 +49,7 @@ func (h *Handler) CreateAction(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) GetOccurrences(w http.ResponseWriter, r *http.Request, actionID int) {
 	occurrences, err := GetOccurrencesByAction(r.Context(), h.DB, actionID)
 	if err != nil {
-		http.Error(w, "Failed to fetch occurrences", http.StatusInternalServerError)
+		httphelper.WriteJSONError(w, http.StatusInternalServerError, "Failed to fetch occurrences")
 		return
 	}
 	json.NewEncoder(w).Encode(occurrences)
@@ -56,7 +61,7 @@ func (h *Handler) CreateOccurrence(w http.ResponseWriter, r *http.Request, actio
 		Timestamp *time.Time `json:"timestamp,omitempty"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		httphelper.WriteJSONError(w, http.StatusBadRequest, "Invalid JSON")
 		return
 	}
 
@@ -68,7 +73,7 @@ func (h *Handler) CreateOccurrence(w http.ResponseWriter, r *http.Request, actio
 
 	occurrence, err := InsertOccurrence(r.Context(), h.DB, actionID, ts)
 	if err != nil {
-		http.Error(w, "Failed to insert occurrence", http.StatusInternalServerError)
+		httphelper.WriteJSONError(w, http.StatusInternalServerError, "Failed to insert occurrence")
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
